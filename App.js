@@ -1,15 +1,4 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
-
-// export default function App() {
-//   return (
-//     <View>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-// import './gesture-handler';
+//Modules
 import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -17,77 +6,96 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import 'react-native-gesture-handler';
 // import { setNavigator } from './src/navigationRef';
 
+//Drawer Navigation
+import BottomTab from './src/components/TabNavigator';
+import AppDrawer from './src/components/AppDrawer';
+// import AppStack from './src/components/AppStack';
+
+//Screens
 import UserListScreen from './src/screens/UserListScreen';
 import LandingScreen from './src/screens/LandingScreen';
-
-// const mainListFlow = createStackNavigator({
-//   UserList: UserListScreen,
-// });
-
-// mainListFlow.navigationOptions = ({ navigation }) => {
-//   title = 'Main';
-//   let tabBarVisible = true;
-//   if (navigation.state.index > 0) {
-//     tabBarVisible = false;
-//   }
-//   return {
-//     tabBarVisible,
-//     title,
-//   };
-// };
+import ProfileScreen from './src/screens/ProfileScreen';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function Test2() {
+const AppStack = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={LandingScreen} />
-      <Tab.Screen name="User List" component={UserListScreen} />
-    </Tab.Navigator>
+    <Drawer.Navigator
+      drawerContent={(props) => <AppDrawer {...props} />}
+      screenOptions={{
+        headerShown: true,
+        drawerActiveBackgroundColor: '#EC785B',
+        drawerActiveTintColor: '#fff',
+        drawerInactiveTintColor: '#333',
+        drawerLabelStyle: {
+          marginLeft: -25,
+          // fontFamily: 'Roboto-Medium',
+          fontSize: 15,
+        },
+        drawerBarIcon: ({ focused, color, size }) => {
+          let iconName = 'home';
+
+          if (route.name === 'Profile') {
+          } else if (route.name === 'Users') {
+            iconName = 'person-sharp';
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="Home "
+        component={BottomTab}
+        options={{
+          drawerIcon: ({ color }) => <Ionicons name="home" />,
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          drawerIcon: ({ color }) => <Ionicons name="person-outline" />,
+        }}
+      />
+      <Drawer.Screen
+        name="Users"
+        component={UserListScreen}
+        options={{
+          drawerIcon: ({ color }) => <Ionicons name="settings-outline" />,
+        }}
+      />
+    </Drawer.Navigator>
   );
-}
+};
 
 function Root() {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home2" component={Test2} />
-      <Drawer.Screen name="User List" component={UserListScreen} />
+    <Drawer.Navigator
+
+    // screenOptions={{ headerShown: false }}
+    >
+      <Drawer.Screen name="Home" component={AppStack} />
+      <Drawer.Screen name="Users" component={UserListScreen} />
     </Drawer.Navigator>
   );
 }
 
-function Bot() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={LandingScreen} />
-      <Tab.Screen name="User List" component={UserListScreen} />
-    </Tab.Navigator>
-  );
-}
-
-export default function App() {
-  // return (
-  //   <NavigationContainer>
-  //     {/* <Tab.Navigator>
-  //       <Tab.Screen name="Home" component={HomeScreen} />
-  //     </Tab.Navigator> */}
-  //     <Drawer.Navigator initialRouteName="Home">
-  //       <Drawer.Screen name="Home" component={UserListScreen} />
-  //       <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-  //     </Drawer.Navigator>
-  //     {/* <Tab.Navigator /> */}
-  //   </NavigationContainer>
-  // );
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="Bot" component={Bot} /> */}
-        <Stack.Screen name="Root" component={Root} />
+        <Stack.Screen name="Root" component={AppStack} />
+        {/* <Stack.Screen name="Bot" component={Root} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+export default App;

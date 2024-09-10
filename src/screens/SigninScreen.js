@@ -9,7 +9,7 @@ import {
 import React, { useCallback, useContext, useState } from 'react';
 // import { NavigationEvents } from 'react-navigation';
 
-const SettingScreen = ({ navigation }) => {
+const SigninScreen = ({ navigation }) => {
   return (
     <>
       <View>
@@ -19,6 +19,6 @@ const SettingScreen = ({ navigation }) => {
   );
 };
 
-export default SettingScreen;
+export default SigninScreen;
 
 const styles = StyleSheet.create({});

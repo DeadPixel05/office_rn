@@ -9,16 +9,16 @@ import {
 import React, { useCallback, useContext, useState } from 'react';
 // import { NavigationEvents } from 'react-navigation';
 
-const SettingScreen = ({ navigation }) => {
+const ArScreen = ({ navigation }) => {
   return (
     <>
       <View>
-        <Text>Profile Screen</Text>
+        <Text>Ar Screen</Text>
       </View>
     </>
   );
 };
 
-export default SettingScreen;
+export default ArScreen;
 
 const styles = StyleSheet.create({});
